@@ -9,7 +9,7 @@ interface IRegisterUserData {
   name: string
 }
 
-const register = async (data: IRegisterUserData): Promise<User> => {
+const registerService = async (data: IRegisterUserData): Promise<User> => {
   const userExists = await prisma.user.findUnique({ where: { email: data.email } })
   if (userExists !== null) {
     throw new UserAlreadyExistsError('User already exists')
@@ -19,4 +19,4 @@ const register = async (data: IRegisterUserData): Promise<User> => {
   return user
 }
 
-export { register }
+export { registerService }

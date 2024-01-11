@@ -1,7 +1,7 @@
 import { UserAlreadyExistsError } from '../../src/errors/user-already-exists.error'
 import { hashPassword } from '../../src/libs/hash-password'
 import { prismaMock } from '../../src/libs/prisma.mock'
-import { register } from '../../src/services/register.service'
+import { registerService } from '../../src/services/register.service'
 
 describe('Test Register Service', () => {
   const userMock = {
@@ -19,7 +19,7 @@ describe('Test Register Service', () => {
 
     // act
     const { email, password, name } = userMock
-    const user = await register({ email, password, name })
+    const user = await registerService({ email, password, name })
 
     // assert
     expect(user.name).toBe(name)
@@ -34,6 +34,6 @@ describe('Test Register Service', () => {
 
     // act & assert
     const { email, password, name } = userMock
-    await expect(register({ email, password, name })).rejects.toThrow(UserAlreadyExistsError)
+    await expect(registerService({ email, password, name })).rejects.toThrow(UserAlreadyExistsError)
   })
 })
