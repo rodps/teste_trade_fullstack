@@ -7,4 +7,4 @@ const app = express()
 app.use(express.json())
 app.use(routes)
 
-app.listen(env.port, () => { console.log('server running on port 3000') })
+app.listen(env.port, () => { console.log(`Listening on port ${env.port}`) })
