@@ -1,4 +1,5 @@
 import express, { type Request, type Response } from 'express'
+import env from './config/env'
 
 const app = express()
 
@@ -8,4 +9,4 @@ app.get('/', (req: Request, res: Response) => {
   res.json({ message: 'hello world' })
 })
 
-app.listen(3000, () => { console.log('server running on port 3000') })
+app.listen(env.port, () => { console.log('server running on port 3000') })
