@@ -7,12 +7,12 @@ interface IJwtToken {
   token: string
 }
 
-interface ILoginServiceParams {
+interface ILoginServiceData {
   email: string
   password: string
 }
 
-const loginService = async ({ email, password }: ILoginServiceParams): Promise<IJwtToken> => {
+const loginService = async ({ email, password }: ILoginServiceData): Promise<IJwtToken> => {
   const user = await prisma.user.findUnique({ where: { email } })
   if (user === null) {
     throw new InvalidLoginError('Invalid email or password')
