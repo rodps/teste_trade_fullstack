@@ -10,7 +10,7 @@ const loginController = async (req: Request, res: Response) => {
   }).parse(req.body)
 
   const token = await loginService(data)
-  res.json({ token })
+  res.json(token)
 }
 
 export { loginController }
