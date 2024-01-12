@@ -35,7 +35,6 @@ model Team {
 
 model Championship {
   id Int @id  @default(autoincrement())
-  name String
   createdAt DateTime
   matches Match[]
   user User @relation(fields: [userId], references: [id])
