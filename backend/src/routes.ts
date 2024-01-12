@@ -9,6 +9,7 @@ import {
   registerController,
   listTeamController
 } from './controllers'
+import { simulateChampionshipController } from './controllers/simulate-championship.controller'
 
 const routes = Router()
 
@@ -18,5 +19,7 @@ routes.post('/register', wrapper(registerController))
 routes.post('/teams', authMiddleware, wrapper(createTeamController))
 routes.delete('/teams/:id', authMiddleware, wrapper(deleteTeamController))
 routes.get('/teams', authMiddleware, wrapper(listTeamController))
+
+routes.post('/championships/simulate', authMiddleware, wrapper(simulateChampionshipController))
 
 export { routes }
