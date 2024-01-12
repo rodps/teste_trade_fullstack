@@ -3,6 +3,7 @@ import env from '../config/env'
 
 interface IJwtPayload {
   email: string
+  id: number
 }
 
 const sign = async (payload: IJwtPayload): Promise<string> => {

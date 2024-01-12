@@ -17,7 +17,7 @@ const loginService = async ({ email, password }: ILoginServiceData): Promise<str
   if (!result) {
     throw new InvalidLoginError('Invalid email or password')
   }
-  const token = await jwt.sign({ email: user.email })
+  const token = await jwt.sign({ email: user.email, id: user.id })
   return token
 }
 

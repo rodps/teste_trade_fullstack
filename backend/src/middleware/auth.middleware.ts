@@ -9,7 +9,10 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
   }
   try {
     const payload = await jwt.verify(token)
-    req.user = payload
+    req.user = {
+      email: payload.email,
+      id: payload.id
+    }
     next()
   } catch (err) {
     return res.status(401).json({ error: 'Unauthorized' })

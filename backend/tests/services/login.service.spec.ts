@@ -23,11 +23,11 @@ describe('Test Login Service', () => {
     await expect(loginService({ email: 'any', password: 'any' })).rejects.toThrow(InvalidLoginError)
   })
 
-  it('should return IJwtToken if user is found and password matches', async () => {
+  it('should return a token if user is found and password matches', async () => {
     prismaMock.user.findUnique.mockResolvedValue(userMock)
     jest.spyOn(hashPassword, 'compare').mockResolvedValue(true)
     jest.spyOn(jwt, 'sign').mockResolvedValue('token')
     const result = await loginService({ email: 'any', password: 'any' })
-    expect(result).toEqual({ token: 'token' })
+    expect(result).toEqual('token')
   })
 })
