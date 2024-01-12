@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { Router } from 'express'
-import { loginController } from './controllers/login.controller'
 import { wrapper } from './controllers/wrapper'
-import { registerController } from './controllers/register.controller'
-import { createTeamController } from './controllers/create-team.controller'
 import { authMiddleware } from './middleware/auth.middleware'
+import {
+  createTeamController,
+  deleteTeamController,
+  loginController,
+  registerController
+} from './controllers'
 
 const routes = Router()
 
@@ -12,5 +15,6 @@ routes.post('/login', wrapper(loginController))
 routes.post('/register', wrapper(registerController))
 
 routes.post('/teams', authMiddleware, wrapper(createTeamController))
+routes.delete('/teams/:id', authMiddleware, wrapper(deleteTeamController))
 
 export { routes }
