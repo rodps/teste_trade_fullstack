@@ -6,7 +6,8 @@ import {
   createTeamController,
   deleteTeamController,
   loginController,
-  registerController
+  registerController,
+  listTeamController
 } from './controllers'
 
 const routes = Router()
@@ -16,5 +17,6 @@ routes.post('/register', wrapper(registerController))
 
 routes.post('/teams', authMiddleware, wrapper(createTeamController))
 routes.delete('/teams/:id', authMiddleware, wrapper(deleteTeamController))
+routes.get('/teams', authMiddleware, wrapper(listTeamController))
 
 export { routes }
