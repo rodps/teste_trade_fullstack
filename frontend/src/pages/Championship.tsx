@@ -33,7 +33,9 @@ export default function Championship() {
   });
 
   useEffect(() => {
-    refetch();
+    if (id) {
+      refetch();
+    }
   }, [id, refetch]);
 
   const { data: teamsData } = useQuery({
