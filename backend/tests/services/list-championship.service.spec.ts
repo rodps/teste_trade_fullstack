@@ -31,5 +31,6 @@ describe('Test List Championship Service', () => {
       expect(c.createdAt).toBeDefined()
     })
     expect(championships.pages).toBe(1)
+    expect(championships.totalRecords).toBe(2)
   })
 })

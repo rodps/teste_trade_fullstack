@@ -4,6 +4,7 @@ import { prisma } from '../libs/prisma'
 interface IListChampionshipServiceResult {
   championships: Array<Championship & { matches: Match[] }>
   pages: number
+  totalRecords: number
 }
 
 const listChampionshipService = async (
@@ -42,7 +43,7 @@ const listChampionshipService = async (
 
   const championshipsCount = await prisma.championship.count({})
   const totalPages = Math.ceil(championshipsCount / perPage)
-  return { championships, pages: totalPages }
+  return { championships, pages: totalPages, totalRecords: championshipsCount }
 }
 
 export { listChampionshipService, type IListChampionshipServiceResult }
