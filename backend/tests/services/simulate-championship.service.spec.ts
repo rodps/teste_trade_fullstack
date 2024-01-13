@@ -23,7 +23,7 @@ describe('Test Simulate Championship Service', () => {
     mockedCallPythonScript.mockResolvedValue('1\n2')
 
     // act
-    const matches = await simulateChampionshipService(teams)
+    const { matches, winner } = await simulateChampionshipService(teams)
 
     // assert
     expect(matches.length).toBe(7)
@@ -34,6 +34,7 @@ describe('Test Simulate Championship Service', () => {
       homeScore: 1,
       stage: 'quarters'
     })
+    expect(winner).toBeDefined()
     expect(mockedCallPythonScript).toHaveBeenCalledTimes(7)
   })
 })

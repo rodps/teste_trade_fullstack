@@ -8,25 +8,28 @@ describe('Test List Championship Service', () => {
       {
         id: 1,
         userId: 1,
+        winnerId: 1,
         createdAt: new Date()
       },
       {
         id: 2,
         userId: 1,
+        winnerId: 1,
         createdAt: new Date()
       }
     ])
+    prismaMock.championship.count.mockResolvedValue(2)
 
     // act
     const championships = await listChampionshipService(1)
 
     // assert
-    expect(championships.length).toBe(2)
-    championships.forEach((c, idx) => {
+    expect(championships.championships.length).toBe(2)
+    championships.championships.forEach((c, idx) => {
       expect(c.userId).toBe(1)
       expect(c.id).toBe(idx + 1)
       expect(c.createdAt).toBeDefined()
     })
-    expect(prismaMock.championship.findMany).toHaveBeenCalledWith({ where: { userId: 1 }, include: { matches: true } })
+    expect(championships.pages).toBe(1)
   })
 })

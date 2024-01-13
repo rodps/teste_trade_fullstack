@@ -11,9 +11,13 @@ describe('Test Create Championship Service', () => {
     // arrange
     const userId = 1
     const teams = [1, 2, 3, 4, 5, 6, 7, 8]
-    mockedSimulateChampionshipService.mockResolvedValue([])
+    mockedSimulateChampionshipService.mockResolvedValue({
+      matches: [],
+      winner: 1
+    })
     prismaMock.championship.create.mockResolvedValue({
       id: 1,
+      winnerId: 1,
       userId,
       createdAt: new Date()
     })

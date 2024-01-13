@@ -7,10 +7,13 @@ describe('Test Get Championship Service', () => {
     // arrange
     const id = 1
     const userId = 1
+    const winnerId = 1
+    const createdAt = new Date()
     prismaMock.championship.findUnique.mockResolvedValue({
       id,
       userId,
-      createdAt: new Date()
+      winnerId,
+      createdAt
     })
 
     // act
@@ -19,7 +22,8 @@ describe('Test Get Championship Service', () => {
     // assert
     expect(championship.id).toBe(id)
     expect(championship.userId).toBe(userId)
-    expect(championship.createdAt).toBeDefined()
+    expect(championship.createdAt).toBe(createdAt)
+    expect(championship.winnerId).toBe(winnerId)
   })
 
   it('should throw NotFoundError if championship not found', async () => {
