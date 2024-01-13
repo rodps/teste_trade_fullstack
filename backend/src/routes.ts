@@ -11,6 +11,7 @@ import {
 } from './controllers'
 import { simulateChampionshipController } from './controllers/simulate-championship.controller'
 import { listChampionshipController } from './controllers/list-championship.controller'
+import { getChampionshipController } from './controllers/get-championship.controller'
 
 const routes = Router()
 
@@ -23,5 +24,6 @@ routes.get('/teams', authMiddleware, wrapper(listTeamController))
 
 routes.post('/championships/simulate', authMiddleware, wrapper(simulateChampionshipController))
 routes.get('/championships', authMiddleware, wrapper(listChampionshipController))
+routes.get('/championships/:id', authMiddleware, wrapper(getChampionshipController))
 
 export { routes }
