@@ -15,7 +15,6 @@ axiosClient.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log("teste");
     if (error.response.status === 401) {
       window.location.href = "/login";
     }
