@@ -5,21 +5,9 @@ import { useState } from "react";
 import PageHeader from "../components/PageHeader";
 import MatchCard from "../components/MatchCard";
 
-const teamsInitial = [
-  { name: "time 1" },
-  { name: "time 2" },
-  { name: "time 3" },
-  { name: "time 4" },
-  { name: "time 5" },
-  { name: "time 6" },
-  { name: "time 7" },
-  { name: "time 8" },
-  { name: "time 9" },
-  { name: "time 10" },
-];
+const teams = [{ name: "Team 1" }, { name: "Team 2" }, { name: "Team 3" }];
 
 export default function Championship() {
-  const [teams, setTeams] = useState(teamsInitial);
   const [selectedTeams, setSelectedTeams] = useState();
 
   return (
