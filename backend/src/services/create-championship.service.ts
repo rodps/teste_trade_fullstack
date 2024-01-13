@@ -4,13 +4,15 @@ import { prisma } from '../libs/prisma'
 
 const createChampionshipService = async (userId: number, teams: number[]): Promise<Championship & { matches: Match[] }> => {
   const championship = await simulateChampionshipService(teams)
+
   return await prisma.championship.create({
     data: {
       createdAt: new Date(),
       userId,
+      winnerId: championship.winner,
       matches: {
         createMany: {
-          data: championship.map((match) => ({
+          data: championship.matches.map((match) => ({
             stage: match.stage,
             teamGuestGoals: match.guestScore,
             teamGuestId: match.guest,

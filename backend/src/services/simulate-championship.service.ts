@@ -9,14 +9,21 @@ interface IMatch {
   stage: string
 }
 
-const simulateChampionshipService = async (teams: number[]): Promise<IMatch[]> => {
+interface ISimulatedChampionship {
+  matches: IMatch[]
+  winner: number
+}
+
+const simulateChampionshipService = async (
+  teams: number[]
+): Promise<ISimulatedChampionship> => {
   if (teams.length !== 8) {
     throw new InvalidNumberOfTeamsError('Teams number should be equal to 8')
   }
   return await simulate(teams)
 }
 
-const simulate = async (teams: number[]): Promise<IMatch[]> => {
+const simulate = async (teams: number[]): Promise<ISimulatedChampionship> => {
   const path = 'test.py'
   const championship: IMatch[] = []
   const goalDifference: Record<number, number> = {}
@@ -56,7 +63,10 @@ const simulate = async (teams: number[]): Promise<IMatch[]> => {
     }
     teams = [...winners]
   }
-  return championship
+  return {
+    matches: championship,
+    winner: teams[0]
+  }
 }
 
 export { simulateChampionshipService, type IMatch }

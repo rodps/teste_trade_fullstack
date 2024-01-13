@@ -27,6 +27,7 @@ model Team {
   name  String
   matchesAsHome Match[] @relation("teamHome")
   matchesAsGuest Match[] @relation("teamGuest")
+  championships Championship[]
   user User @relation(fields: [userId], references: [id])
   userId Int
 
@@ -37,6 +38,8 @@ model Championship {
   id Int @id  @default(autoincrement())
   createdAt DateTime
   matches Match[]
+  winner Team @relation(fields: [winnerId], references: [id])
+  winnerId Int
   user User @relation(fields: [userId], references: [id])
   userId Int
 
