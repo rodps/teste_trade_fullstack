@@ -26,7 +26,10 @@ export default function Root() {
         </div>
         <MenuButton to="/logout" label="Logout" />
       </nav>
-      <div className="py-5 px-8 w-full h-full" style={{ marginLeft: "20rem" }}>
+      <div
+        className="py-5 px-8 w-full min-h-screen"
+        style={{ marginLeft: "20rem" }}
+      >
         <Outlet />
       </div>
     </div>
