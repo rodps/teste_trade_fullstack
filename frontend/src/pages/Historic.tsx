@@ -26,8 +26,6 @@ export default function Historic() {
     },
   });
 
-  console.log(championships);
-
   return (
     <div className="w-full h-full">
       <PageHeader title="Historic" subtitle="Historic of the championships" />
