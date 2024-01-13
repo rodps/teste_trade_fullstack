@@ -4,6 +4,7 @@ import Historic from "./pages/Historic";
 import Login from "./pages/Login";
 import Root from "./pages/Root";
 import RequireAuth from "./components/RequireAuth";
+import Logout from "./pages/Logout";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
 ]);
 

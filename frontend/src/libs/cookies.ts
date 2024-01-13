@@ -6,9 +6,12 @@ const storeJWT = (token: string) => {
 
 const getJWT = () => Cookies.get("token");
 
+const deleteJWT = () => Cookies.remove("token");
+
 const cookies = {
   storeJWT,
   getJWT,
+  deleteJWT,
 };
 
 export { cookies };
