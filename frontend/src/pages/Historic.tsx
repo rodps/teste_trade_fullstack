@@ -3,35 +3,48 @@ import PageHeader from "../components/PageHeader";
 import axiosClient from "../libs/axios";
 import { useQuery } from "react-query";
 import MatchCard from "../components/MatchCard";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
+import { Paginator } from "primereact/paginator";
 
 export default function Historic() {
-  const { data: championships } = useQuery({
+  const [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get("page");
+
+  const { data: championships, refetch } = useQuery({
     queryKey: ["championships"],
     queryFn: () =>
-      axiosClient.get("/championships").then((res) => {
-        const historic = res.data.championships.map((c: any) => {
-          return {
-            ...c,
-            matches: c.matches.filter(
-              (m: any) =>
-                m.teamHomeId === c.winnerId || m.teamGuestId === c.winnerId,
-            ),
-          };
-        });
-        return historic;
-      }),
+      axiosClient
+        .get("/championships", { params: { page: page ?? 1 } })
+        .then((res) => {
+          const historic = res.data.championships.map((c: any) => {
+            return {
+              ...c,
+              matches: c.matches.filter(
+                (m: any) =>
+                  m.teamHomeId === c.winnerId || m.teamGuestId === c.winnerId,
+              ),
+            };
+          });
+          return { historic, totalRecords: res.data.totalRecords };
+        }),
     onError: () => {
       toast.error("Error fetching championships");
     },
   });
+
+  useEffect(() => {
+    if (page) {
+      refetch();
+    }
+  }, [refetch, page]);
 
   return (
     <div className="w-full h-full">
       <PageHeader title="Historic" subtitle="Historic of the championships" />
       <div>
         <ul className="list-none p-0">
-          {championships?.map((c: any) => (
+          {championships?.historic.map((c: any) => (
             <li key={c.id} className="mb-5">
               <Link
                 to={`/championship?id=${c.id}`}
@@ -57,6 +70,14 @@ export default function Historic() {
           ))}
         </ul>
       </div>
+      <Paginator
+        totalRecords={championships?.totalRecords}
+        first={10 * Number(page ?? 1) - 1}
+        onPageChange={(e) => {
+          setSearchParams({ page: (e.page + 1).toString() });
+        }}
+        rows={10}
+      />
     </div>
   );
 }
