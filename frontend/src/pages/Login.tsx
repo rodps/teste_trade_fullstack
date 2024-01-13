@@ -24,22 +24,22 @@ export default function Login() {
 
   const navigate = useNavigate();
 
-  const mutation = useMutation<any, AxiosError, Inputs>((data: Inputs) =>
-    axiosClient.post("/login", data),
-  );
+  const mutation = useMutation<any, AxiosError, Inputs>({
+    mutationFn: (data: Inputs) => axiosClient.post("/login", data),
+    onSuccess: (data) => {
+      const token = data.data.token;
+      cookies.storeJWT(token);
+      navigate("/championship");
+    },
+    onError: (error) => {
+      const errorMessage = error.response?.data as any;
+      toast.error(errorMessage.error);
+    },
+  });
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     mutation.mutate(data);
   };
-
-  if (mutation.isError) {
-    const error = mutation.error.response?.data as any;
-    toast.error(error.error);
-  }
-  if (mutation.isSuccess) {
-    cookies.storeJWT(mutation.data.data.token);
-    navigate("/championship");
-  }
 
   return (
     <div className="flex justify-content-center align-items-center h-screen bg-primary-50">
