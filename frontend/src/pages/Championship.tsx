@@ -1,24 +1,40 @@
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { MultiSelect } from "primereact/multiselect";
-import { useState } from "react";
+import { useEffect } from "react";
 import PageHeader from "../components/PageHeader";
 import MatchCard from "../components/MatchCard";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { AxiosError } from "axios";
 import axiosClient from "../libs/axios";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import InputErrorHelper from "../components/InputErrorHelper";
 import { toast } from "react-toastify";
-
-// const teams = [{ name: "Team 1" }, { name: "Team 2" }, { name: "Team 3" }];
+import { useSearchParams } from "react-router-dom";
 
 type TeamForm = {
   name: string;
 };
 
 export default function Championship() {
-  const [selectedTeams, setSelectedTeams] = useState();
+  let [searchParams, setSearchParams] = useSearchParams();
+  const id = searchParams.get("id");
+
+  const { data: championship, refetch } = useQuery({
+    queryKey: ["championship", id],
+    queryFn: () =>
+      axiosClient
+        .get(`/championships/${id}`)
+        .then((res) => res.data.championship),
+    onError: () => {
+      toast.error("Error fetching championship");
+    },
+    enabled: !!id,
+  });
+
+  useEffect(() => {
+    refetch();
+  }, [id, refetch]);
 
   const { data: teamsData } = useQuery({
     queryKey: ["teams"],
@@ -29,11 +45,24 @@ export default function Championship() {
   });
 
   const queryClient = useQueryClient();
-  const mutation = useMutation<any, AxiosError, TeamForm>({
+  const teamMutation = useMutation<any, AxiosError, TeamForm>({
     mutationFn: (data: TeamForm) => axiosClient.post("/teams", data),
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Team added successfully");
       queryClient.invalidateQueries({ queryKey: ["teams"] });
+    },
+    onError: (error) => {
+      const errorData = error.response?.data as any;
+      toast.error(errorData.error);
+    },
+  });
+
+  const championshipMutation = useMutation<any, AxiosError, any>({
+    mutationFn: (data: any) =>
+      axiosClient.post("/championships/simulate", data),
+    onSuccess: (data) => {
+      toast.success("Championship simulated successfully");
+      setSearchParams({ id: data.data.championship.id });
     },
     onError: (error) => {
       const errorData = error.response?.data as any;
@@ -47,8 +76,23 @@ export default function Championship() {
     formState: { errors: teamErrors },
   } = useForm<TeamForm>();
 
+  const {
+    control,
+    handleSubmit: handleChampionshipSubmit,
+    formState: { errors: championshipErrors },
+  } = useForm();
+
   const onTeamSubmit: SubmitHandler<TeamForm> = (data: TeamForm) => {
-    mutation.mutate(data);
+    teamMutation.mutate(data);
+  };
+
+  const onChampionshipSubmit = (data: any) => {
+    if (data.teams.length !== 8) {
+      toast.error("You must select 8 teams");
+      return;
+    }
+    const teamsId = data.teams.map((t: any) => t.id);
+    championshipMutation.mutate({ teams: teamsId });
   };
 
   return (
@@ -57,56 +101,103 @@ export default function Championship() {
         title="Championship"
         subtitle="Select teams to simulate the championship"
       />
+
       <form onSubmit={handleTeamSubmit(onTeamSubmit)}>
         <div className="flex flex-column gap-2 mb-5">
           <label htmlFor="add-team">Add a team</label>
           <div className="flex gap-2">
             <InputText
               id="add-team"
+              className={teamErrors.name && "p-invalid"}
               {...registerTeam("name", {
                 required: { value: true, message: "Team name is required" },
               })}
             />
-            {teamErrors.name && (
-              <InputErrorHelper error={teamErrors.name.message!} />
-            )}
-            <Button label="Submit" loading={mutation.isLoading} />
+            <Button label="Submit" loading={teamMutation.isLoading} />
           </div>
+          {teamErrors.name && (
+            <InputErrorHelper error={teamErrors.name.message!} />
+          )}
         </div>
       </form>
-      <div className="flex flex-column gap-2">
-        <label htmlFor="add-team">Select teams</label>
-        <div className="flex gap-2">
-          <MultiSelect
-            options={teamsData?.teams}
-            value={selectedTeams}
-            onChange={(e) => setSelectedTeams(e.value)}
-            placeholder="Teams"
-            optionLabel="name"
-            maxSelectedLabels={4}
-            className="w-20rem"
-          />
-          <Button label="Simulate" />
-        </div>
-      </div>
 
-      <h2 className="mt-6 mb-3">Results</h2>
-      <div className="grid">
-        <div className="col flex flex-column justify-content-center gap-3">
-          <MatchCard away="Time 1" awayScore={2} home="Time 2" homeScore={4} />
-          <MatchCard away="Time 1" awayScore={2} home="Time 2" homeScore={4} />
-          <div className="my-2"></div>
-          <MatchCard away="Time 1" awayScore={2} home="Time 2" homeScore={4} />
-          <MatchCard away="Time 1" awayScore={2} home="Time 2" homeScore={4} />
+      <form onSubmit={handleChampionshipSubmit(onChampionshipSubmit)}>
+        <div className="flex flex-column gap-2">
+          <label htmlFor="add-team">Select teams</label>
+          <div className="flex gap-2">
+            <Controller
+              name="teams"
+              control={control}
+              rules={{
+                required: "Teams are required.",
+              }}
+              render={({ field }) => (
+                <MultiSelect
+                  id={field.name}
+                  name="teams"
+                  value={field.value}
+                  options={teamsData?.teams}
+                  onChange={(e) => field.onChange(e.value)}
+                  optionLabel="name"
+                  placeholder="Select Teams"
+                  maxSelectedLabels={4}
+                  className={`w-20rem ${
+                    championshipErrors.teams && "p-invalid"
+                  }`}
+                />
+              )}
+            />
+            <Button label="Simulate" />
+          </div>
+          {championshipErrors.teams && (
+            <InputErrorHelper
+              error={championshipErrors.teams.message! as string}
+            />
+          )}
         </div>
-        <div className="col flex flex-column justify-content-center gap-8 col-offset-1">
-          <MatchCard away="Time 1" awayScore={2} home="Time 2" homeScore={4} />
-          <MatchCard away="Time 1" awayScore={2} home="Time 2" homeScore={4} />
-        </div>
-        <div className="col flex flex-column justify-content-center col-offset-1">
-          <MatchCard away="Time 1" awayScore={2} home="Time 2" homeScore={4} />
-        </div>
-      </div>
+      </form>
+
+      {championship && (
+        <>
+          <h2 className="mt-6 mb-3">Results</h2>
+          <div className="grid">
+            <div className="col flex flex-column justify-content-center gap-3">
+              {championship.matches
+                .slice(0, 4)
+                .map((match: any, index: number) => (
+                  <MatchCard
+                    key={index}
+                    home={match.teamHome.name}
+                    homeScore={match.teamHomeGoals}
+                    away={match.teamGuest.name}
+                    awayScore={match.teamGuestGoals}
+                  />
+                ))}
+            </div>
+            <div className="col flex flex-column justify-content-center gap-8 col-offset-1">
+              {championship.matches
+                .slice(4, 6)
+                .map((match: any, index: number) => (
+                  <MatchCard
+                    key={index + 4}
+                    home={match.teamHome.name}
+                    homeScore={match.teamHomeGoals}
+                    away={match.teamGuest.name}
+                    awayScore={match.teamGuestGoals}
+                  />
+                ))}
+            </div>
+            <div className="col flex flex-column justify-content-center col-offset-1">
+              <MatchCard
+                home={championship.matches[6].teamHome.name}
+                homeScore={championship.matches[6].teamHomeGoals}
+                away={championship.matches[6].teamGuest.name}
+                awayScore={championship.matches[6].teamGuestGoals}
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
