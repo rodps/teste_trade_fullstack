@@ -10,4 +10,4 @@ Via Docker compose:
 
 3. Execute o comando ```docker compose up```.
 
-4. A aplicação iniciará na porta 3000 e poderá ser acessada através da página http://localhost:3000 no seu navegador.
+4. A aplicação será iniciada na porta 3000 e poderá ser acessada através da página http://localhost:3000 no seu navegador.
