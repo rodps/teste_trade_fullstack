@@ -12,11 +12,14 @@ import {
 import { simulateChampionshipController } from './controllers/simulate-championship.controller'
 import { listChampionshipController } from './controllers/list-championship.controller'
 import { getChampionshipController } from './controllers/get-championship.controller'
+import { oauthGithubController } from './controllers/oauth-github.controller'
 
 const routes = Router()
 
 routes.post('/login', wrapper(loginController))
 routes.post('/register', wrapper(registerController))
+
+routes.post('/oauth/github', wrapper(oauthGithubController))
 
 routes.post('/teams', authMiddleware, wrapper(createTeamController))
 routes.delete('/teams/:id', authMiddleware, wrapper(deleteTeamController))
