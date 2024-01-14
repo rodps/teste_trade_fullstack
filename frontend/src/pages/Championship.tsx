@@ -11,16 +11,44 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import InputErrorHelper from "../components/InputErrorHelper";
 import { toast } from "react-toastify";
 import { useSearchParams } from "react-router-dom";
+import MatchCardSkeleton from "../components/MatchCardSkeleton";
 
 type TeamForm = {
   name: string;
+};
+
+const ChampionshipSkeleton = () => {
+  return (
+    <>
+      <h2 className="mt-6 mb-3">Results</h2>
+      <div className="grid">
+        <div className="col flex flex-column justify-content-center gap-3">
+          {[1, 2, 3, 4].map((key) => (
+            <MatchCardSkeleton key={key} />
+          ))}
+        </div>
+        <div className="col flex flex-column justify-content-center gap-8 col-offset-1">
+          {[1, 2].map((key) => (
+            <MatchCardSkeleton key={key} />
+          ))}
+        </div>
+        <div className="col flex flex-column justify-content-center col-offset-1">
+          <MatchCardSkeleton />
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default function Championship() {
   let [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get("id");
 
-  const { data: championship, refetch } = useQuery({
+  const {
+    data: championship,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: ["championship", id],
     queryFn: () =>
       axiosClient
@@ -30,6 +58,7 @@ export default function Championship() {
       toast.error("Error fetching championship");
     },
     enabled: !!id,
+    keepPreviousData: false,
   });
 
   useEffect(() => {
@@ -165,6 +194,7 @@ export default function Championship() {
         </div>
       </form>
 
+      {isLoading && <ChampionshipSkeleton />}
       {championship && (
         <>
           <h2 className="mt-6 mb-3">Results</h2>
