@@ -155,7 +155,7 @@ export default function Championship() {
                 />
               )}
             />
-            <Button label="Simulate" />
+            <Button label="Simulate" loading={championshipMutation.isLoading} />
           </div>
           {championshipErrors.teams && (
             <InputErrorHelper
