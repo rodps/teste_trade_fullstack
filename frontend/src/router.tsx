@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Root from "./pages/Root";
 import RequireAuth from "./components/RequireAuth";
 import Logout from "./pages/Logout";
+import OauthGithub from "./pages/OauthGithub";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     element: <Logout />,
+  },
+  {
+    path: "/oauth/github",
+    element: <OauthGithub />,
   },
 ]);
 

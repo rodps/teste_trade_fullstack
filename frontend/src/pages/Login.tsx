@@ -9,6 +9,9 @@ import { cookies } from "../libs/cookies";
 import InputErrorHelper from "../components/InputErrorHelper";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FaGithubAlt } from "react-icons/fa";
+import { LuLogIn } from "react-icons/lu";
+import { env } from "../env";
 
 type Inputs = {
   email: string;
@@ -39,6 +42,15 @@ export default function Login() {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     mutation.mutate(data);
+  };
+
+  const githubLogin = () => {
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.set("client_id", env.githubClientId);
+    urlSearchParams.set("redirect_uri", env.githubRedirectUri);
+    urlSearchParams.set("scope", "user");
+    const url = `https://github.com/login/oauth/authorize?${urlSearchParams.toString()}`;
+    window.location.href = url;
   };
 
   return (
@@ -72,8 +84,19 @@ export default function Login() {
                 <InputErrorHelper error={errors.password.message!} />
               )}
             </div>
-            <Button label="Social Login" outlined type="button" />
-            <Button label="Login" type="submit" loading={mutation.isLoading} />
+            <Button
+              label="Login with GitHub"
+              outlined
+              type="button"
+              icon={<FaGithubAlt />}
+              onClick={githubLogin}
+            />
+            <Button
+              label="Login"
+              type="submit"
+              loading={mutation.isLoading}
+              icon={<LuLogIn />}
+            />
           </div>
         </form>
       </Card>
