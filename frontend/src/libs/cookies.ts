@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 
 const storeJWT = (token: string) => {
-  Cookies.set("token", token, { expires: 1 });
+  Cookies.set("token", token);
 };
 
 const getJWT = () => Cookies.get("token");

@@ -7,7 +7,6 @@ import axiosClient from "../libs/axios";
 import { AxiosError } from "axios";
 import { cookies } from "../libs/cookies";
 import InputErrorHelper from "../components/InputErrorHelper";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaGithubAlt } from "react-icons/fa";
 import { LuLogIn } from "react-icons/lu";
@@ -25,14 +24,12 @@ export default function Login() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const navigate = useNavigate();
-
   const mutation = useMutation<any, AxiosError, Inputs>({
     mutationFn: (data: Inputs) => axiosClient.post("/login", data),
     onSuccess: (data) => {
       const token = data.data.token;
       cookies.storeJWT(token);
-      navigate("/championship");
+      window.location.href = "/championship";
     },
     onError: (error) => {
       const errorMessage = error.response?.data as any;

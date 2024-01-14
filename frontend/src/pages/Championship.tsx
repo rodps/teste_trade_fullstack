@@ -11,7 +11,6 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import InputErrorHelper from "../components/InputErrorHelper";
 import { toast } from "react-toastify";
 import { useSearchParams } from "react-router-dom";
-import { cookies } from "../libs/cookies";
 
 type TeamForm = {
   name: string;
@@ -41,14 +40,7 @@ export default function Championship() {
 
   const { data: teamsData } = useQuery({
     queryKey: ["teams"],
-    queryFn: () =>
-      axiosClient
-        .get("/teams", {
-          headers: {
-            Authorization: `Bearer ${cookies.getJWT()}`,
-          },
-        })
-        .then((res) => res.data),
+    queryFn: () => axiosClient.get("/teams").then((res) => res.data),
     onError: () => {
       toast.error("Error fetching teams");
     },
