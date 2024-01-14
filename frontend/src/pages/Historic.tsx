@@ -25,6 +25,7 @@ export default function Historic() {
     onError: () => {
       toast.error("Error fetching historic");
     },
+    refetchOnWindowFocus: false,
   });
 
   useEffect(() => {
