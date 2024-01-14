@@ -18,6 +18,7 @@ const createChampionshipService = async (userId: number, teams: number[]): Promi
             teamGuestId: match.guest,
             teamHomeGoals: match.homeScore,
             teamHomeId: match.home,
+            winnerId: match.winner,
             userId
           }))
         }

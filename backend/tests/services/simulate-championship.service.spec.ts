@@ -32,7 +32,8 @@ describe('Test Simulate Championship Service', () => {
       guestScore: 2,
       home: 1,
       homeScore: 1,
-      stage: 'quarters'
+      stage: 'quarters',
+      winner: 2
     })
     expect(winner).toBeDefined()
     expect(mockedCallPythonScript).toHaveBeenCalledTimes(7)

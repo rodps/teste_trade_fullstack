@@ -28,6 +28,7 @@ model Team {
   matchesAsHome Match[] @relation("teamHome")
   matchesAsGuest Match[] @relation("teamGuest")
   championships Championship[]
+  matchesWon Match[]
   user User @relation(fields: [userId], references: [id])
   userId Int
 
@@ -57,6 +58,8 @@ model Match {
   teamHomeGoals Int
   teamGuestGoals Int
   stage String
+  winner Team @relation(fields: [winnerId], references: [id])
+  winnerId Int
   user User @relation(fields: [userId], references: [id])
   userId Int
 

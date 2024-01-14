@@ -7,6 +7,7 @@ interface IMatch {
   homeScore: number
   guestScore: number
   stage: string
+  winner: number
 }
 
 interface ISimulatedChampionship {
@@ -39,27 +40,32 @@ const simulate = async (teams: number[]): Promise<ISimulatedChampionship> => {
       const parsedResult = matchResult.split('\n')
       const homeScore = Number.parseInt(parsedResult[0])
       const guestScore = Number.parseInt(parsedResult[1])
+
+      goalDifference[home] += homeScore - guestScore
+      goalDifference[guest] += guestScore - homeScore
+
+      let winner
+      if (homeScore > guestScore) {
+        winner = home
+      } else if (guestScore > homeScore) {
+        winner = guest
+      } else {
+        if (goalDifference[home] > goalDifference[guest]) {
+          winner = home
+        } else {
+          winner = guest
+        }
+      }
+      winners.push(winner)
+
       let stage = 'quarters'
       if (teams.length === 4) {
         stage = 'semi'
       } else if (teams.length === 2) {
         stage = 'final'
       }
-      const match = { home, guest, homeScore, guestScore, stage }
-      championship.push(match)
-      goalDifference[home] += homeScore - guestScore
-      goalDifference[guest] += guestScore - homeScore
-      if (homeScore > guestScore) {
-        winners.push(home)
-      } else if (guestScore > homeScore) {
-        winners.push(guest)
-      } else {
-        if (goalDifference[home] > goalDifference[guest]) {
-          winners.push(home)
-        } else {
-          winners.push(guest)
-        }
-      }
+
+      championship.push({ home, guest, homeScore, guestScore, stage, winner })
     }
     teams = [...winners]
   }

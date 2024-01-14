@@ -27,6 +27,7 @@ const listChampionshipService = async (
       userId
     },
     include: {
+      winner: true,
       matches: {
         include: {
           teamGuest: true,
