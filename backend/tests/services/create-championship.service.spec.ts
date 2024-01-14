@@ -13,11 +13,17 @@ describe('Test Create Championship Service', () => {
     const teams = [1, 2, 3, 4, 5, 6, 7, 8]
     mockedSimulateChampionshipService.mockResolvedValue({
       matches: [],
-      winner: 1
+      first: 1,
+      second: 2,
+      third: 3,
+      fourth: 4
     })
     prismaMock.championship.create.mockResolvedValue({
       id: 1,
-      winnerId: 1,
+      firstId: 1,
+      secondId: 2,
+      thirdId: 3,
+      fourthId: 4,
       userId,
       createdAt: new Date()
     })
@@ -28,5 +34,9 @@ describe('Test Create Championship Service', () => {
     // assert
     expect(result.userId).toBe(userId)
     expect(result.id).toBe(1)
+    expect(result.firstId).toBe(1)
+    expect(result.secondId).toBe(2)
+    expect(result.thirdId).toBe(3)
+    expect(result.fourthId).toBe(4)
   })
 })

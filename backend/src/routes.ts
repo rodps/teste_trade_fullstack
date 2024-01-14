@@ -13,6 +13,7 @@ import { simulateChampionshipController } from './controllers/simulate-champions
 import { listChampionshipController } from './controllers/list-championship.controller'
 import { getChampionshipController } from './controllers/get-championship.controller'
 import { oauthGithubController } from './controllers/oauth-github.controller'
+import { getHistoricController } from './controllers/get-historic.controller'
 
 const routes = Router()
 
@@ -28,5 +29,6 @@ routes.get('/teams', authMiddleware, wrapper(listTeamController))
 routes.post('/championships/simulate', authMiddleware, wrapper(simulateChampionshipController))
 routes.get('/championships', authMiddleware, wrapper(listChampionshipController))
 routes.get('/championships/:id', authMiddleware, wrapper(getChampionshipController))
+routes.get('/historic', authMiddleware, wrapper(getHistoricController))
 
 export { routes }

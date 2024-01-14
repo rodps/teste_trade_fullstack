@@ -9,7 +9,10 @@ const createChampionshipService = async (userId: number, teams: number[]): Promi
     data: {
       createdAt: new Date(),
       userId,
-      winnerId: championship.winner,
+      firstId: championship.first,
+      secondId: championship.second,
+      thirdId: championship.third,
+      fourthId: championship.fourth,
       matches: {
         createMany: {
           data: championship.matches.map((match) => ({

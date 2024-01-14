@@ -12,7 +12,10 @@ interface IMatch {
 
 interface ISimulatedChampionship {
   matches: IMatch[]
-  winner: number
+  first: number
+  second: number
+  third: number
+  fourth: number
 }
 
 const simulateChampionshipService = async (
@@ -21,10 +24,22 @@ const simulateChampionshipService = async (
   if (teams.length !== 8) {
     throw new InvalidNumberOfTeamsError('Teams number should be equal to 8')
   }
-  return await simulate(teams)
+  const championship = await simulate(teams)
+  const thirdPlaceTeams = championship.filter(c => c.stage === 'semi').map(c => c.home !== c.winner ? c.home : c.guest)
+  const thirdPlace = await simulate(thirdPlaceTeams)
+  return {
+    matches: championship,
+    first: championship[6].winner,
+    second:
+      championship[6].winner === championship[6].home
+        ? championship[6].guest
+        : championship[6].home,
+    third: thirdPlace[0].winner,
+    fourth: thirdPlace[0].winner === thirdPlace[0].home ? thirdPlace[0].guest : thirdPlace[0].home
+  }
 }
 
-const simulate = async (teams: number[]): Promise<ISimulatedChampionship> => {
+const simulate = async (teams: number[]): Promise<IMatch[]> => {
   const path = 'test.py'
   const championship: IMatch[] = []
   const goalDifference: Record<number, number> = {}
@@ -69,10 +84,7 @@ const simulate = async (teams: number[]): Promise<ISimulatedChampionship> => {
     }
     teams = [...winners]
   }
-  return {
-    matches: championship,
-    winner: teams[0]
-  }
+  return championship
 }
 
 export { simulateChampionshipService, type IMatch }

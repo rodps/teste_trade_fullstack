@@ -1,7 +1,7 @@
 import { prismaMock } from '../../src/libs/prisma.mock'
-import { listChampionshipService } from '../../src/services/list-championship.service'
+import { getHistoricService } from '../../src/services/get-historic.service'
 
-describe('Test List Championship Service', () => {
+describe('Test Get Championship Historic Service', () => {
   it('should list all championships', async () => {
     // arrange
     prismaMock.championship.findMany.mockResolvedValue([
@@ -27,11 +27,11 @@ describe('Test List Championship Service', () => {
     prismaMock.championship.count.mockResolvedValue(2)
 
     // act
-    const championships = await listChampionshipService(1)
+    const historic = await getHistoricService(1)
 
     // assert
-    expect(championships.championships.length).toBe(2)
-    championships.championships.forEach((c, idx) => {
+    expect(historic.historic.length).toBe(2)
+    historic.historic.forEach((c, idx) => {
       expect(c.userId).toBe(1)
       expect(c.id).toBe(idx + 1)
       expect(c.firstId).toBe(1)
@@ -40,7 +40,7 @@ describe('Test List Championship Service', () => {
       expect(c.fourthId).toBe(4)
       expect(c.createdAt).toBeDefined()
     })
-    expect(championships.pages).toBe(1)
-    expect(championships.totalRecords).toBe(2)
+    expect(historic.pages).toBe(1)
+    expect(historic.totalRecords).toBe(2)
   })
 })
