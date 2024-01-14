@@ -57,7 +57,7 @@ export default function Historic() {
                 📅 Date: {new Date(c.createdAt).toLocaleString()}
               </p>
               <p className="mb-4 text-600 text-sm">
-                🎉 Winner: <strong>{c.winner.name}</strong>
+                🏆 Champion: <strong>{c.winner.name}</strong>
               </p>
               <div className="flex gap-8">
                 {c.matches.map((m: any) => (
