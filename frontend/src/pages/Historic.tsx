@@ -2,7 +2,6 @@ import { toast } from "react-toastify";
 import PageHeader from "../components/PageHeader";
 import axiosClient from "../libs/axios";
 import { useQuery } from "react-query";
-import MatchCard from "../components/MatchCard";
 import { Link, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Paginator } from "primereact/paginator";
@@ -11,26 +10,14 @@ export default function Historic() {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page");
 
-  const { data: championships, refetch } = useQuery({
-    queryKey: ["championships"],
+  const { data: historic, refetch } = useQuery({
+    queryKey: ["historic"],
     queryFn: () =>
       axiosClient
-        .get("/championships", { params: { page: page ?? 1 } })
-        .then((res) => {
-          const totalRecords = res.data.totalRecords;
-          const historic = res.data.championships.map((c: any) => {
-            return {
-              ...c,
-              matches: c.matches.filter(
-                (m: any) =>
-                  m.teamHomeId === c.winnerId || m.teamGuestId === c.winnerId,
-              ),
-            };
-          });
-          return { historic, totalRecords };
-        }),
+        .get("/historic", { params: { page: page ?? 1 } })
+        .then((res) => res.data),
     onError: () => {
-      toast.error("Error fetching championships");
+      toast.error("Error fetching historic");
     },
   });
 
@@ -45,7 +32,7 @@ export default function Historic() {
       <PageHeader title="Historic" subtitle="Historic of the championships" />
       <div>
         <ul className="list-none p-0">
-          {championships?.historic.map((c: any) => (
+          {historic?.historic.map((c: any) => (
             <li key={c.id} className="mb-5">
               <Link
                 to={`/championship?id=${c.id}`}
@@ -53,32 +40,33 @@ export default function Historic() {
               >
                 <h3 className="mb-1">Championship #{c.id}</h3>
               </Link>
-              <p className="mb-1 text-600 text-sm">
+              <p className="mb-3 text-600 text-sm">
                 📅 Date: {new Date(c.createdAt).toLocaleString()}
               </p>
-              <p className="mb-4 text-600 text-sm">
-                🏆 Champion: <strong>{c.winner.name}</strong>
-              </p>
-              <div className="flex gap-8">
-                {c.matches.map((m: any) => (
-                  <MatchCard
-                    key={m.id}
-                    home={m.teamHome.name}
-                    homeId={m.teamHomeId}
-                    away={m.teamGuest.name}
-                    awayId={m.teamGuestId}
-                    homeScore={m.teamHomeGoals}
-                    awayScore={m.teamGuestGoals}
-                    winnerId={m.winnerId}
-                  />
-                ))}
+              <div className="flex justify-content-between">
+                <div className="bg-white border-round shadow-1 text-sm w-15rem p-3">
+                  <p className="font-bold mb-3">🥇 First Place</p>
+                  <p>{c.first.name}</p>
+                </div>
+                <div className="bg-white border-round shadow-1 text-sm w-15rem p-3">
+                  <p className="font-bold mb-3">🥈 Second Place</p>
+                  <p>{c.second.name}</p>
+                </div>
+                <div className="bg-white border-round shadow-1 text-sm w-15rem p-3">
+                  <p className="font-bold mb-3">🥉 Third Place</p>
+                  <p>{c.third.name}</p>
+                </div>
+                <div className="bg-white border-round shadow-1 text-sm w-15rem p-3">
+                  <p className="font-bold mb-3">⚽ Fourth Place</p>
+                  <p>{c.fourth.name}</p>
+                </div>
               </div>
             </li>
           ))}
         </ul>
       </div>
       <Paginator
-        totalRecords={championships?.totalRecords}
+        totalRecords={historic?.totalRecords}
         first={10 * Number(page ?? 1) - 1}
         onPageChange={(e) => {
           setSearchParams({ page: (e.page + 1).toString() });
