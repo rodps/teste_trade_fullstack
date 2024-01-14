@@ -1,0 +1,343 @@
+{
+	"info": {
+		"_postman_id": "33e7714f-d6b4-409f-9c10-17eee503278e",
+		"name": "Meu Campeonato",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28698878"
+	},
+	"item": [
+		{
+			"name": "Teams",
+			"item": [
+				{
+					"name": "Create Team",
+					"request": {
+						"auth": {
+							"type": "jwt",
+							"jwt": [
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "HS256",
+									"type": "string"
+								},
+								{
+									"key": "isSecretBase64Encoded",
+									"value": false,
+									"type": "boolean"
+								},
+								{
+									"key": "payload",
+									"value": "{}",
+									"type": "string"
+								},
+								{
+									"key": "headerPrefix",
+									"value": "Bearer",
+									"type": "string"
+								},
+								{
+									"key": "queryParamKey",
+									"value": "token",
+									"type": "string"
+								},
+								{
+									"key": "header",
+									"value": "{}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvZHJpZ29AZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTcwNTE3MDQwNSwiZXhwIjoxNzA1MjU2ODA1LCJpc3MiOiJtZXUtY2FtcGVvbmF0byJ9.mhxPOLTMTcx97pHIETPgqYLpZla9NfJTrAza4R7B1gk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Palmeiras\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/teams",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Team",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvZHJpZ29AZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTcwNTAyMjg3NywiZXhwIjoxNzA1MTA5Mjc3LCJpc3MiOiJtZXUtY2FtcGVvbmF0byJ9.DBT0dR5lZWUlXlGy2BrfSH0FzSe3it1ln-g5IVc4j-Y",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/teams/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"teams",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List Teams",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvZHJpZ29AZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTcwNTAyMjg3NywiZXhwIjoxNzA1MTA5Mjc3LCJpc3MiOiJtZXUtY2FtcGVvbmF0byJ9.DBT0dR5lZWUlXlGy2BrfSH0FzSe3it1ln-g5IVc4j-Y",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/teams",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"teams"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"123\",\n    \"email\": \"rodrigo@email.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"rodrigo\",\n    \"email\": \"rodrigo@email.com\",\n    \"password\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Github",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3001/oauth/github?code=aaf4acbe369f82eb48dc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"oauth",
+								"github"
+							],
+							"query": [
+								{
+									"key": "code",
+									"value": "aaf4acbe369f82eb48dc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Championships",
+			"item": [
+				{
+					"name": "Simulate",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvZHJpZ29AZW1haWwuY29tIiwiaWQiOjIsImlhdCI6MTcwNTIyMDA1OCwiZXhwIjoxNzA1MzA2NDU4LCJpc3MiOiJtZXUtY2FtcGVvbmF0byJ9.nKjJXvCPrNZB4veyETkXWUP9JzfInAA_hdGEEi88-XE",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"teams\": [1,2,3,4,5,6,7,8]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3001/championships/simulate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"championships",
+								"simulate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvZHJpZ29AZW1haWwuY29tIiwiaWQiOjIsImlhdCI6MTcwNTIyMDA1OCwiZXhwIjoxNzA1MzA2NDU4LCJpc3MiOiJtZXUtY2FtcGVvbmF0byJ9.nKjJXvCPrNZB4veyETkXWUP9JzfInAA_hdGEEi88-XE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/championships",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"championships"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvZHJpZ29AZW1haWwuY29tIiwiaWQiOjEsImlhdCI6MTcwNTA3ODE3OCwiZXhwIjoxNzA1MTY0NTc4LCJpc3MiOiJtZXUtY2FtcGVvbmF0byJ9.z0swXy6eClHjuGq10cAvlVH845Wi7ZJqvrWN_u8G8ic",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/championships/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"championships",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Historic",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJvZHJpZ29AZW1haWwuY29tIiwiaWQiOjIsImlhdCI6MTcwNTIyMDA1OCwiZXhwIjoxNzA1MzA2NDU4LCJpc3MiOiJtZXUtY2FtcGVvbmF0byJ9.nKjJXvCPrNZB4veyETkXWUP9JzfInAA_hdGEEi88-XE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3001/historic",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"historic"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
