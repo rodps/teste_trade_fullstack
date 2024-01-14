@@ -6,5 +6,6 @@ COPY prisma .
 RUN npx prisma generate
 COPY src types tsconfig.json ./
 RUN npm run build
+COPY test.py .
 EXPOSE 3001
 CMD ["npm", "start"]
