@@ -84,6 +84,7 @@ export default function Championship() {
     register: registerTeam,
     handleSubmit: handleTeamSubmit,
     formState: { errors: teamErrors },
+    reset: resetTeam,
   } = useForm<TeamForm>();
 
   const {
@@ -94,6 +95,7 @@ export default function Championship() {
 
   const onTeamSubmit: SubmitHandler<TeamForm> = (data: TeamForm) => {
     teamMutation.mutate(data);
+    resetTeam();
   };
 
   const onChampionshipSubmit = (data: any) => {
