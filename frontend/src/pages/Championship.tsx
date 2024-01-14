@@ -180,9 +180,12 @@ export default function Championship() {
                   <MatchCard
                     key={index}
                     home={match.teamHome.name}
+                    homeId={match.teamHomeId}
                     homeScore={match.teamHomeGoals}
                     away={match.teamGuest.name}
+                    awayId={match.teamGuestId}
                     awayScore={match.teamGuestGoals}
+                    winnerId={match.winnerId}
                   />
                 ))}
             </div>
@@ -193,18 +196,24 @@ export default function Championship() {
                   <MatchCard
                     key={index + 4}
                     home={match.teamHome.name}
+                    homeId={match.teamHomeId}
                     homeScore={match.teamHomeGoals}
                     away={match.teamGuest.name}
+                    awayId={match.teamGuestId}
                     awayScore={match.teamGuestGoals}
+                    winnerId={match.winnerId}
                   />
                 ))}
             </div>
             <div className="col flex flex-column justify-content-center col-offset-1">
               <MatchCard
                 home={championship.matches[6].teamHome.name}
+                homeId={championship.matches[6].teamHomeId}
                 homeScore={championship.matches[6].teamHomeGoals}
                 away={championship.matches[6].teamGuest.name}
+                awayId={championship.matches[6].teamGuestId}
                 awayScore={championship.matches[6].teamGuestGoals}
+                winnerId={championship.matches[6].winnerId}
               />
             </div>
           </div>

@@ -17,6 +17,7 @@ export default function Historic() {
       axiosClient
         .get("/championships", { params: { page: page ?? 1 } })
         .then((res) => {
+          const totalRecords = res.data.totalRecords;
           const historic = res.data.championships.map((c: any) => {
             return {
               ...c,
@@ -26,7 +27,7 @@ export default function Historic() {
               ),
             };
           });
-          return { historic, totalRecords: res.data.totalRecords };
+          return { historic, totalRecords };
         }),
     onError: () => {
       toast.error("Error fetching championships");
@@ -52,17 +53,23 @@ export default function Historic() {
               >
                 <h3 className="mb-1">Championship #{c.id}</h3>
               </Link>
+              <p className="mb-1 text-600 text-sm">
+                📅 Date: {new Date(c.createdAt).toLocaleString()}
+              </p>
               <p className="mb-4 text-600 text-sm">
-                Date: {new Date(c.createdAt).toLocaleString()}
+                🎉 Winner: <strong>{c.winner.name}</strong>
               </p>
               <div className="flex gap-8">
                 {c.matches.map((m: any) => (
                   <MatchCard
                     key={m.id}
                     home={m.teamHome.name}
+                    homeId={m.teamHomeId}
                     away={m.teamGuest.name}
+                    awayId={m.teamGuestId}
                     homeScore={m.teamHomeGoals}
                     awayScore={m.teamGuestGoals}
+                    winnerId={m.winnerId}
                   />
                 ))}
               </div>
