@@ -115,6 +115,10 @@ export default function Championship() {
               className={teamErrors.name && "p-invalid"}
               {...registerTeam("name", {
                 required: { value: true, message: "Team name is required" },
+                minLength: {
+                  value: 3,
+                  message: "Team name must be at least 3 characters",
+                },
               })}
             />
             <Button label="Submit" loading={teamMutation.isLoading} />
