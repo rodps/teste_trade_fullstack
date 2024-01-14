@@ -4,8 +4,12 @@ services:
     ports:
       - "3001:3001"
     environment:
-      - DATABASE_URL=postgresql://postgres:mysecretpassword@172.22.0.1:5432/meucampeonato
+      - DATABASE_URL=postgresql://postgres:mysecretpassword@172.24.0.1:5432/meucampeonato
+      - GITHUB_CLIENT_ID=
+      - GITHUB_CLIENT_SECRET=
   frontend:
     build: ./frontend
     ports:
       - "3000:3000"
+    environment:
+      - GITHUB_CLIENT_ID=
