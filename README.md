@@ -6,7 +6,7 @@ Via Docker compose:
 
 1. Abra o arquivo docker-compose.yml.
 
-2. Edite a variaveis de ambiente.
+2. Edite a variaveis de ambiente e args.
 
 3. Execute o comando ```docker compose up```.
 

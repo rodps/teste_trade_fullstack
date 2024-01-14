@@ -8,8 +8,9 @@ services:
       - GITHUB_CLIENT_ID=
       - GITHUB_CLIENT_SECRET=
   frontend:
-    build: ./frontend
+    build: 
+      context: ./frontend
+      args:
+        GITHUB_CLIENT_ID:
     ports:
       - "3000:3000"
-    environment:
-      - GITHUB_CLIENT_ID=
