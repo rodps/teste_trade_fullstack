@@ -15,3 +15,7 @@ Via Docker compose:
 ## Github OAuth
 
 Ao criar um OAuth App no GitHub, utilize no campo Authorization callback URL, o valor http://127.0.0.1:3000/oauth/github
+
+## Cadastrar usuário
+
+Acesse a collection do postman contida neste repositório, em seguida -> Auth -> Register
