@@ -8,7 +8,8 @@ describe('Test Register Service', () => {
     email: 'any email',
     password: 'any password',
     id: 1,
-    name: 'any name'
+    name: 'any name',
+    githubId: null
   }
 
   it('should register user', async () => {
