@@ -11,3 +11,7 @@ Via Docker compose:
 3. Execute o comando ```docker compose up```.
 
 4. A aplicação será iniciada na porta 3000 e poderá ser acessada através da página http://localhost:3000 no seu navegador.
+
+## Github OAuth
+
+Ao criar um OAuth App no GitHub, utilize no campo Authorization callback URL, o valor http://127.0.0.1:3000/oauth/github
